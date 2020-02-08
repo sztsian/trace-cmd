@@ -17,6 +17,10 @@ if (NOT _INSTALL_PREFIX)
     set(_INSTALL_PREFIX "/usr/local")
 endif (NOT _INSTALL_PREFIX)
 
+if (NOT _LIBDIR)
+    set(_LIBDIR "${_INSTALL_PREFIX}/lib")
+endif (NOT _LIBDIR)
+
 include(${KS_DIR}/build/FindTraceCmd.cmake)
 include(${KS_DIR}/build/FindJSONC.cmake)
 
@@ -34,8 +38,8 @@ if (Qt5Widgets_FOUND)
 
 endif (Qt5Widgets_FOUND)
 
-set(LIBRARY_OUTPUT_PATH    "${KS_DIR}/lib")
-set(EXECUTABLE_OUTPUT_PATH "${KS_DIR}/bin")
+set(LIBRARY_OUTPUT_PATH    "${KS_DIR}/${_LIBDIR}")
+set(EXECUTABLE_OUTPUT_PATH "${KS_DIR}/${_INSTALL_PREFIX}/bin")
 
 set(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS} -Wall -pthread -fPIC")
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -std=c++11 -pthread -fPIC")
@@ -54,14 +58,15 @@ if (NOT CMAKE_CXX_FLAGS_PACKAGE)
     set(CMAKE_CXX_FLAGS_PACKAGE "-O3")
 endif (NOT CMAKE_CXX_FLAGS_PACKAGE)
 
-set(KS_PLUGIN_INSTALL_PREFIX ${_INSTALL_PREFIX}/lib/${KS_APP_NAME}/plugins/)
+set(KS_PLUGIN_INSTALL_PREFIX ${_LIBDIR}/${KS_APP_NAME}/plugins/)
 
 set(KS_ICON        KS_icon_shark.svg)
 set(KS_ICON_FIN    KS_icon_fin.svg)
 set(KS_LOGO        KS_logo_symbol.svg)
 set(KS_LOGO_LABEL  KS_logo_horizontal.svg)
 
-set(CMAKE_INSTALL_RPATH "${_INSTALL_PREFIX}/lib/${KS_APP_NAME}/")
+SET(CMAKE_INSTALL_RPATH "${_LIBDIR}/${KS_APP_NAME}/")
+
 
 if (CMAKE_BUILD_TYPE MATCHES Package)
 
